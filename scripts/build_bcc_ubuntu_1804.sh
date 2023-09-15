@@ -14,18 +14,23 @@ BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BCCDIR="${BASEDIR}/bcc"
 BUILDDIR="${BCCDIR}/build"
 
+# Install Clang 12, which is just new enough to compile the libbpf-tools
+cd ${BASEDIR}
+curl https://apt.llvm.org/llvm.sh -o ${BASEDIR}/llvm.sh
+chmod +x llvm.sh
+sudo ${BASEDIR}/llvm.sh 12 all
+
 # Deps
 sudo apt-get update
 sudo apt-get -y install zip bison build-essential cmake flex git libedit-dev \
-        libllvm6.0 llvm-6.0-dev libclang-6.0-dev python zlib1g-dev libelf-dev \
-        libfl-dev python3-setuptools liblzma-dev arping netperf iperf \
-        python3-venv pkg-config gcc-multilib
+        python zlib1g-dev libelf-dev libfl-dev python3-setuptools liblzma-dev \
+        arping netperf iperf python3-venv pkg-config gcc-multilib
 
 # Create a Python environment and activate it
 cd ${BASEDIR}
 sudo rm -rf ${BASEDIR}/env
 if [ ! -d ${BASEDIR}/env ]; then
-        python3 -m venv ${BASEDIR}/env
+  python3 -m venv ${BASEDIR}/env
 fi
 source ${BASEDIR}/env/bin/activate
 which python
@@ -51,12 +56,6 @@ python3 setup.py install --prefix=${BASEDIR}/env
 
 # Deactivate the Python environment
 deactivate
-
-# Install Clang 12, which is just new enough to compile the libbpf-tools
-cd ${BASEDIR}
-wget https://apt.llvm.org/llvm.sh
-chmod +x llvm.sh
-sudo ${BASEDIR}/llvm.sh 12
 
 # Make the libbpf tools
 cd ${BASEDIR}/bcc/libbpf-tools

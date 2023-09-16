@@ -1,5 +1,5 @@
 #!/bin/bash
-BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BASEDIR=$(cd "${BASH_SOURCE[0]%/*}" && pwd)
 
 # User-editable options
 IMAGE_SIZE="50G" # How much space you want on top of the ~2GB that Ubuntu provides

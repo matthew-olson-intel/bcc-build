@@ -9,7 +9,7 @@
 # WARNING: This script ASSUMES that your `user-data.yaml.in` ENDS in a `write_files`
 # block, and appends more files to that. You cannot have multiple `write_files` blocks
 ################################################################################
-BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BASEDIR=$(cd "${BASH_SOURCE[0]%/*}" && pwd)
 
 CONFIG_DIR="${BASEDIR}"
 DATA_DIR="${CONFIG_DIR}/../data"

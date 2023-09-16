@@ -1,5 +1,5 @@
 #!/bin/bash
-BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BASEDIR=$(cd "${BASH_SOURCE[0]%/*}" && pwd)
 
 if [ -z "$1" ]; then
   echo "USAGE: ./reset.sh [version]"

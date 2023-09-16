@@ -42,7 +42,7 @@ fi
 ${CONFIG_DIR}/create_user_data.sh
 
 # Download the Ubuntu image in question
-curl \
+curl -L \
   https://cloud-images.ubuntu.com/releases/${UBUNTU_VERSION}/release/ubuntu-${UBUNTU_VERSION}-server-cloudimg-amd64.img \
   -o ${DIST_IMAGE}
   

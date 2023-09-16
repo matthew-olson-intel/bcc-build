@@ -43,7 +43,7 @@ ${CONFIG_DIR}/create_user_data.sh
 
 # Download the Ubuntu image in question
 curl \
-  https://cloud-images.ubuntu.com/releases/bionic/release/ubuntu-${UBUNTU_VERSION}-server-cloudimg-amd64.img \
+  https://cloud-images.ubuntu.com/releases/${UBUNTU_VERSION}/release/ubuntu-${UBUNTU_VERSION}-server-cloudimg-amd64.img \
   -o ${DIST_IMAGE}
   
 # Convert the dist image into an uncompressed version (so that we can resize it)

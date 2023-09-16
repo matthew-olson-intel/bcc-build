@@ -21,8 +21,20 @@ ORIG_IMAGE="${ORIG_DIR}/ubuntu-${UBUNTU_VERSION}.img.orig"
 
 # Create the directories if they don't already exist
 mkdir -p ${DIST_DIR}
+if [ ! -d ${DIST_DIR} ] || [ ! -w ${DIST_DIR} ]; then
+  echo "Failed to create ${DIST_DIR}! Aborting."
+  exit 1
+fi
 mkdir -p ${DELTA_DIR}
+if [ ! -d ${DELTA_DIR} ] || [ ! -w ${DELTA_DIR} ]; then
+  echo "Failed to create ${DELTA_DIR}! Aborting."
+  exit 1
+fi
 mkdir -p ${ORIG_DIR}
+if [ ! -d ${ORIG_DIR} ] || [ ! -w ${ORIG_DIR} ]; then
+  echo "Failed to create ${ORIG_DIR}! Aborting."
+  exit 1
+fi
 
 # Create a seed.img file, which includes:
 #   1. Any files that you've placed in the `data` directory.

@@ -3,6 +3,20 @@
 This is a collection of Ubuntu VMs which are intended to be used with
 their cloud-init and cloud-localds scripts.
 
+## Dependencies
+
+Arch Linux:
+```
+pacman -S cloud-init qemu-base
+```
+
+Ubuntu:
+```
+apt-get install cloud-init qemu-utils qemu-system-x86
+```
+
+In general, you just need the cloud-init scripts and Qemu.
+
 ## How to Use
 
 All top-level scripts take a distro (currently "ubuntu" or "centos") and a version

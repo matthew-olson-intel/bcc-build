@@ -5,10 +5,12 @@ their cloud-init and cloud-localds scripts.
 
 ## How to Use
 
-All top-level scripts take your Ubuntu version as an argument. Any diectory name in
-`https://cloud-images.ubuntu.com/releases/` should work just fine.
+All top-level scripts take a distro (currently "ubuntu" or "centos") and a version
+(e.g. "18.04" or "7" or "8-stream") as arguments. Check `setup.sh` to see the URLs that
+it's downloading the images from. Submit a PR if you want to add more distros
+or URLs.
 
-1. `setup.sh` will download an image from the Ubuntu Cloud Images site and create
+1. `setup.sh` will download an image from either the Ubuntu or CentOS images repositories  and create
    all necessary images.
 2. `run.sh` will run the given image.
 3. `reset.sh` will "reset" an image; that is, the image will return to its pristine state
@@ -19,7 +21,28 @@ This script compresses and encodes each file and appends it to your `cloud-init`
 as a workaround to easily copy files into these VMs. These files will be placed in
 `/home/ubuntu`, but will be owned by root.
 
-## General Procedure
+## Examples
+
+```
+./setup.sh ubuntu 18.04
+./run.sh ubuntu 18.04
+```
+
+If you want to erase all changes you've made to the Ubuntu 18.04 VM, do
+```
+./reset.sh ubuntu 18.04
+```
+
+You can replace "ubuntu" with "centos," and the scripts should support
+any of the versions available on either
+
+https://cloud-images.ubuntu.com/releases/
+
+or
+
+https://cloud.centos.org/centos/
+
+## Details
 
 The file `user-data.yaml` and `metadata.yaml` are files that are consumed
 by these scripts by passing an image containing them to `qemu`. You can create
@@ -28,8 +51,8 @@ this image by doing:
 cloud-localds seed.img user-data.yaml metadata.yaml
 ```
 
-Next, download an `.img` file of the Ubuntu distribution that you'd like to use.
-Let's call that `disk.img.dist`. Then, we can simply follow the Ubuntu tutorial:
+Next, download an `.img` file of the distro's distribution that you'd like to use.
+Let's call that `disk.img.dist`. Then, we can simply follow a typical qemu workflow:
 
 Convert the compressed qcow file downloaded to a uncompressed qcow2:
 ```

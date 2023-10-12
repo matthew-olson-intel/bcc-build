@@ -13,6 +13,11 @@ DATA_DIR="${CONFIG_DIR}/../data"
 USER_DATA="${CONFIG_DIR}/user-data.yaml"
 ADDL_USER_DATA="${CONFIG_DIR}/addl-user-data.yaml"
 
+function create_seed_and_exit() {
+  cloud-localds ${CONFIG_DIR}/seed.img ${CONFIG_DIR}/user-data.yaml ${CONFIG_DIR}/metadata.yaml
+  exit 0
+}
+
 cp ${CONFIG_DIR}/user-data.yaml.in ${USER_DATA}
 
 # If there's additional user data, go ahead and append it now.
@@ -27,7 +32,7 @@ fi
 shopt -s nullglob
 data_files=(${DATA_DIR}/*)
 if [ ${#data_files[@]} -eq 0 ]; then
-  exit 0
+  create_seed_and_exit
 fi
 
 # Determine if there are any write_files directives
@@ -44,4 +49,4 @@ for file in $(ls ${DATA_DIR}); do
   sed -i 's|write_files:|write_files:\n'"${text}"'|' ${USER_DATA}
 done
 
-cloud-localds ${CONFIG_DIR}/seed.img ${CONFIG_DIR}/user-data.yaml ${CONFIG_DIR}/metadata.yaml
+create_seed_and_exit

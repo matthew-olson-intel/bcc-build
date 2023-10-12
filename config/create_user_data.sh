@@ -42,9 +42,9 @@ for file in $(ls ${DATA_DIR}); do
   data=$(cat ${DATA_DIR}/${file} | gzip | base64 -w0)
   text+="  -  encoding: gzip\n"
   text+="     path: /home/ubuntu/${file}\n"
-  text+="     content: !!binary |\n"
+  text+="     content: !!binary \|\n"
   text+="       ${data}"
-  printf "%b" "${text}" >>${USER_DATA}
+  sed -i 's|write_files:|write_files:\n'"${text}"'|' ${USER_DATA}
 done
 
 cloud-localds ${CONFIG_DIR}/seed.img ${CONFIG_DIR}/user-data.yaml ${CONFIG_DIR}/metadata.yaml

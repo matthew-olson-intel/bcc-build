@@ -15,6 +15,16 @@ Ubuntu:
 apt-get install cloud-init qemu-utils qemu-system-x86
 ```
 
+For MacOS (with Homebrew) it's a little more complicated:
+```
+brew install qemu
+brew install cdrtools
+wget -O cloud-localds https://github.com/canonical/cloud-utils/raw/main/bin/cloud-localds
+sed -i 's/genisoimage/mkisofs/g' cloud-localds
+chmod +x cloud-localds
+```
+...Then put `cloud-localds` somewhere in your `PATH`.
+
 In general, you just need the cloud-init scripts and Qemu.
 
 ## How to Use

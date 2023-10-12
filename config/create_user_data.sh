@@ -5,9 +5,6 @@
 # This script creates `user-data.yaml` from `user-data.yaml.in` by
 # encoding all files in the `data` directory with gzip+base64, then appending
 # a `write_files` block to the `cloud-init` config.
-#
-# WARNING: This script ASSUMES that your `user-data.yaml.in` ENDS in a `write_files`
-# block, and appends more files to that. You cannot have multiple `write_files` blocks.
 ################################################################################
 BASEDIR=$(cd "${BASH_SOURCE[0]%/*}" && pwd)
 

@@ -4,20 +4,28 @@ BASEDIR=$(cd "${BASH_SOURCE[0]%/*}" && pwd)
 # User-editable options
 IMAGE_SIZE="50G" # How much space you want on top of the ~2GB that Ubuntu provides
 
-if [ -z "$1" ]; then
-  echo "USAGE: ./setup.sh [version]"
+if [ -z "$1" ] || [ -z "$2" ]; then
+  echo "USAGE: ./setup.sh [distro] [version]"
   exit 1
 fi
-UBUNTU_VERSION="$1"
+DISTRO="$1"
+VERSION="$2"
 
 CONFIG_DIR="${BASEDIR}/config"
 DIST_DIR="${BASEDIR}/dist"
 DELTA_DIR="${BASEDIR}/delta"
 ORIG_DIR="${BASEDIR}/orig"
 
-DIST_IMAGE="${DIST_DIR}/ubuntu-${UBUNTU_VERSION}.img.dist"
-DELTA_IMAGE="${DELTA_DIR}/ubuntu-${UBUNTU_VERSION}.img.delta"
-ORIG_IMAGE="${ORIG_DIR}/ubuntu-${UBUNTU_VERSION}.img.orig"
+URL=""
+if [ ${DISTRO} = "ubuntu" ]; then
+  URL="https://cloud-images.ubuntu.com/releases/${VERSION}/release/ubuntu-${VERSION}-server-cloudimg-amd64.img"
+elif [ ${DISTRO} = "centos" ]; then
+  URL="https://cloud.centos.org/centos/${VERSION}/images/CentOS-${VERSION}-x86_64-GenericCloud.qcow2"
+fi
+
+DIST_IMAGE="${DIST_DIR}/${DISTRO}-${VERSION}.img.dist"
+DELTA_IMAGE="${DELTA_DIR}/${DISTRO}-${VERSION}.img.delta"
+ORIG_IMAGE="${ORIG_DIR}/${DISTRO}-${VERSION}.img.orig"
 
 # Create the directories if they don't already exist
 mkdir -p ${DIST_DIR}
@@ -41,9 +49,9 @@ fi
 #   2. cloud-init configuration
 ${CONFIG_DIR}/create_user_data.sh
 
-# Download the Ubuntu image in question
+# Download the image in question
 curl -L \
-  https://cloud-images.ubuntu.com/releases/${UBUNTU_VERSION}/release/ubuntu-${UBUNTU_VERSION}-server-cloudimg-amd64.img \
+  ${URL} \
   -o ${DIST_IMAGE}
   
 # Convert the dist image into an uncompressed version (so that we can resize it)

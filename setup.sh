@@ -20,7 +20,24 @@ URL=""
 if [ ${DISTRO} = "ubuntu" ]; then
   URL="https://cloud-images.ubuntu.com/releases/${VERSION}/release/ubuntu-${VERSION}-server-cloudimg-amd64.img"
 elif [ ${DISTRO} = "centos" ]; then
-  URL="https://cloud.centos.org/centos/${VERSION}/images/CentOS-${VERSION}-x86_64-GenericCloud.qcow2"
+
+  # First, get the base URL
+  ARCH=""
+  if [ ! ${VERSION} = 6 ] && [ ! ${VERSION} = 7 ]; then
+    ARCH="x86_64/"
+  fi
+  BASE_URL="https://cloud.centos.org/centos/${VERSION}/${ARCH}images"
+  
+  # The filename depends on the version too
+  NUMERIC_VERSION=$(echo ${VERSION} | sed s/-stream//)
+  FILENAME=""
+  if [[ ${VERSION} =~ stream$ ]]; then
+    FILENAME="CentOS-Stream-GenericCloud-${NUMERIC_VERSION}-latest.x86_64.qcow2"
+  else
+    FILENAME="CentOS-${VERSION}-x86_64-GenericCloud.qcow2"
+  fi
+  URL="${BASE_URL}/${FILENAME}"
+  
 fi
 
 DIST_IMAGE="${DIST_DIR}/${DISTRO}-${VERSION}.img.dist"

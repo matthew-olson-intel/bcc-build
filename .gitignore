@@ -1,4 +1,7 @@
 delta/
 dist/
 orig/
+
 config/seed.img
+config/user-data.yaml
+config/addl-user-data.yaml

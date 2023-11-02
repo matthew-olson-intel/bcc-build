@@ -42,10 +42,13 @@ fi
 
 for file in $(ls ${DATA_DIR}); do
   data=$(cat ${DATA_DIR}/${file} | gzip | base64 -w0)
-  text+="  -  encoding: gzip\n"
-  text+="     path: /home/ubuntu/${file}\n"
-  text+="     content: !!binary \|\n"
-  text+="       ${data}"
+  text+="  - encoding: gzip\n"
+  text+="    owner: ubuntu:ubuntu\n"
+  text+="    permissions: '755'\n"
+  text+="    path: /home/ubuntu/${file}\n"
+  text+="    defer: true\n"
+  text+="    content: !!binary \|\n"
+  text+="      ${data}"
   sed -i 's|write_files:|write_files:\n'"${text}"'|' ${USER_DATA}
 done
 

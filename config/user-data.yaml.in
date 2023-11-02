@@ -2,3 +2,5 @@
 password: ubuntu
 chpasswd: { expire: False }
 ssh_pwauth: True
+runcmd:
+  - cloud-init single --name write_files --frequency once
